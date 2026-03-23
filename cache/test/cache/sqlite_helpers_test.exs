@@ -19,6 +19,10 @@ defmodule Cache.SQLiteHelpersTest do
       assert SQLiteHelpers.busy_error?(%Exqlite.Error{message: "error: database is locked (SQLITE_BUSY)"})
     end
 
+    test "returns true for 'Database busy' message" do
+      assert SQLiteHelpers.busy_error?(%Exqlite.Error{message: "Database busy"})
+    end
+
     test "returns false for other Exqlite errors" do
       refute SQLiteHelpers.busy_error?(%Exqlite.Error{message: "disk I/O error"})
     end

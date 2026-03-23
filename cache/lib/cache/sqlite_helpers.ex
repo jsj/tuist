@@ -6,7 +6,7 @@ defmodule Cache.SQLiteHelpers do
   require Logger
 
   def busy_error?(%Exqlite.Error{message: message}) when is_binary(message) do
-    String.contains?(message, ["database is locked", "SQLITE_BUSY"])
+    String.contains?(message, ["database is locked", "Database busy", "SQLITE_BUSY"])
   end
 
   def busy_error?(_), do: false
