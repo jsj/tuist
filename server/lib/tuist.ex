@@ -72,6 +72,7 @@ defmodule Tuist do
       Accounts,
       Accounts.Account,
       Accounts.AccountCacheEndpoint,
+      Accounts.CustomOAuth2,
       Accounts.Organization,
       Accounts.AuthenticatedAccount,
       Accounts.AccountToken,
@@ -135,7 +136,6 @@ defmodule Tuist do
       VCS,
       UUIDv7,
       OAuth.Apple,
-      OAuth.Okta,
-      OAuth.CustomOAuth2
+      OAuth.Okta
     ]
 end
