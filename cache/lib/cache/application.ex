@@ -32,13 +32,7 @@ defmodule Cache.Application do
   def children do
     distributed_children =
       if Cache.Config.distributed_kv_enabled?() do
-        [
-          Repo,
-          Cache.KeyValueAccessTracker,
-          Cache.KeyValueReplicationShipper,
-          Cache.KeyValueReplicationPoller,
-          Cache.ProjectCleanupDiscoveryPoller
-        ]
+        [distributed_kv_supervisor()]
       else
         []
       end
@@ -79,6 +73,22 @@ defmodule Cache.Application do
       [{Oban, Application.get_env(:cache, Oban)}] ++
       analytics_children ++
       endpoint_children
+  end
+
+  defp distributed_kv_supervisor do
+    children = [
+      Repo,
+      Cache.KeyValueAccessTracker,
+      Cache.KeyValueReplicationShipper,
+      Cache.KeyValueReplicationPoller,
+      Cache.ProjectCleanupDiscoveryPoller
+    ]
+
+    %{
+      id: Cache.DistributedKV.Supervisor,
+      type: :supervisor,
+      start: {Supervisor, :start_link, [children, [strategy: :one_for_one, name: Cache.DistributedKV.Supervisor]]}
+    }
   end
 
   defp migrate do
