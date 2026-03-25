@@ -36,7 +36,8 @@ defmodule Cache.Application do
           Repo,
           Cache.KeyValueAccessTracker,
           Cache.KeyValueReplicationShipper,
-          Cache.KeyValueReplicationPoller
+          Cache.KeyValueReplicationPoller,
+          Cache.ProjectCleanupDiscoveryPoller
         ]
       else
         []
